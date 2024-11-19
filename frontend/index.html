@@ -73,6 +73,23 @@
                         <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                     </div>
                 </div>
+                <!-- Button to Open Compare Dialog -->
+<button id="compare-btn">Compare Students</button>
+
+<!-- Modal Dialog for Comparison -->
+<div id="compare-modal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2>Compare Students</h2>
+        <label for="student1">Select Student 1:</label>
+        <select id="student1"></select>
+        <label for="student2">Select Student 2:</label>
+        <select id="student2"></select>
+        <button id="compare-submit">Compare</button>
+        <div id="comparison-result"></div>
+    </div>
+</div>
+                
 
                 <!-- Error State -->
                 <div id="error-state" class="hidden">

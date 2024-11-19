@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const data = await response.json();
         let filteredData = [...data]; // Keep original data separate
         const leaderboardBody = document.getElementById('leaderboard-body');
+        const pinnedStudents = new Set();
         const sectionFilter = document.getElementById('section-filter');
 
         // Populate section filter dropdown
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     <td class="p-4">${index + 1}</td>
                     <td class="p-4">${student.roll}</td>
                     <td class="p-4">
-                        ${student.url.startsWith('https://leetcode.com/u/') 
+                        <span class="pin-name" data-roll="${student.roll}" style="cursor: pointer; color: blue;">${student.url.startsWith('https://leetcode.com/u/')
                             ? `<a href="${student.url}" target="_blank" class="text-blue-400">${student.name}</a>`
                             : `<div class="text-red-500">${student.name}</div>`}
                     </td>
@@ -77,6 +78,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                 ? [...data]
                 : data.filter(student => (student.section || 'N/A') === section);
             renderLeaderboard(filteredData);
+        };
+        //function to pin a student 
+        const pinStudent = (roll) => {
+            const student = filteredData.find(student => student.roll === roll);
+            if (student)
+            {
+                pinnedStudents.add(roll);
+                renderLeaderboard(getSortedData());
+            }
+        };
+         // Get sorted data including pinned students
+         const getSortedData = () => {
+            const pinned = filteredData.filter(student => pinnedStudents.has(student.roll));
+            const unpinned = filteredData.filter(student => !pinnedStudents.has(student.roll));
+            return [...pinned, ...unpinned];
         };
 
         // Sorting logic with ascending and descending functionality
